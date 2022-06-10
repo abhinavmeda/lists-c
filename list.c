@@ -3,7 +3,7 @@
 #include "list.h"
 
 
-void append(Array* ls, int val){
+void append(List* ls, int val){
     if(ls->currentCapacity == ls->maxCapacity){
         ls->ptr_to_chunk_of_memory = realloc(ls->ptr_to_chunk_of_memory, sizeof(int) * ls->maxCapacity * 2);
         ls->maxCapacity = ls->maxCapacity * 2;
@@ -13,25 +13,23 @@ void append(Array* ls, int val){
     ls->currentCapacity += 1;
 }
 
-Array* create_empty_array(){
-    Array* new_array = malloc(sizeof(Array));
+List* create_empty_list(){
+    List* new_array = malloc(sizeof(List));
     new_array->maxCapacity = DEFAULT_MAX_SIZE;
     new_array->currentCapacity = DEFAULT_CURRENT_CAPACITY;
     new_array->ptr_to_chunk_of_memory =  malloc(sizeof(int) * new_array->maxCapacity);
     return new_array;
 }
-/*
-type numbers like this (int []) so you can pass in an array like {1, 2, 3} 
-*/
-Array* initialize_array_with_elements(int numbers[], int size){
-    Array* new_array = create_empty_array();
-    for(int i = 0; i < size; i++){
+
+List* initialize_list_with_elements(int numbers[], int size){
+    List* new_array = create_empty_list();
+    for(int i = 0; i != size; i++){
         append(new_array, numbers[i]);
     }
     return new_array;
 }
 
-void print(Array* ls){
+void print(List* ls){
     printf("[");
     for(int i = 0; i < ls->currentCapacity; i++){
         printf("%d", ls->ptr_to_chunk_of_memory[i]);
@@ -43,11 +41,30 @@ void print(Array* ls){
     printf("\n");
 }
 
-void destroy(Array* ls){
+void destroy(List* ls){
     free(ls->ptr_to_chunk_of_memory);
     free(ls);
 }
-int main(){
-    Array* ls = initialize_array_with_elements((int []) {1, 2, 3}, 3);
-    print(ls);
+
+int len(List* ls){
+    return ls->currentCapacity;
+}
+
+int get_item(List* ls, int index){
+
+    // currentCapacity tells us how many elements are in the list
+    // currentCapacity-1 represents the index of the last element in the list
+    // index has to be 0 <= index <= currentCapacity-1
+
+    if(0 <= index && index <= ls->currentCapacity - 1){
+        return ls->ptr_to_chunk_of_memory[index];
+    }
+    return -1;
+
+}
+
+void set_item(List* list, int index, int new_number){
+    if(0 <= index && index <= list->currentCapacity - 1){
+        list->ptr_to_chunk_of_memory[index] = new_number;
+    }
 }
