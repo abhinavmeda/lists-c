@@ -2,7 +2,6 @@
 #include<stdlib.h>
 #include "list.h"
 
-int main(){
-    
+int main() {
+    printf("hi");
 }
-

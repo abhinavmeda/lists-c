@@ -13,7 +13,7 @@ typedef struct Array{
 
 void append(Array* ls, int val);
 void print(Array* ls);
-void destory(Array* ls);
+void destroy(Array* ls);
 Array* create_empty_array();
 Array* initialize_array_with_elements(int numbers[], int size);
 #endif
